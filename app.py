@@ -1,6 +1,7 @@
 import os
-os.environ["GRADIO_TEMP_DIR"] = "static"
-os.makedirs("static", exist_ok=True)
+temp_dir = os.path.abspath("static")
+os.environ["GRADIO_TEMP_DIR"] = temp_dir
+os.makedirs(temp_dir, exist_ok=True)
 
 
 import logging
@@ -47,10 +48,11 @@ def get_image_base64(file_name: str) -> str:
 
 
 def get_examples(example_dir: str) -> list[str]:
-    file_list = [f for f in os.listdir(os.path.join(EXAMPLE_PATH, example_dir)) if f.endswith(".jpg")]
+    full_dir = os.path.join(EXAMPLE_PATH, example_dir)
+    file_list = [f for f in os.listdir(full_dir) if f.endswith(".jpg")]
     file_list.sort()
 
-    return [os.path.join(EXAMPLE_PATH, example_dir, f) for f in file_list]
+    return [f"examples/{example_dir}/{f}" for f in file_list]
 
 
 def try_on(
@@ -256,5 +258,9 @@ if __name__ == "__main__":
     app.queue(api_open=False).launch(
         server_name="0.0.0.0",
         server_port=7860,
-        show_api=False
+        show_api=False,
+        allowed_paths=[
+            os.path.abspath("static"),
+            os.path.abspath("examples"),
+        ],
     )
