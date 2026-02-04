@@ -6,7 +6,8 @@ import os
 import base64
 
 from try_on_diffusion_client import TryOnDiffusionClient
-
+os.environ["GRADIO_TEMP_DIR"] = "static"
+os.makedirs("static", exist_ok=True)
 LOG_LEVEL = logging.INFO
 LOG_FORMAT = "%(asctime)s %(thread)-8s %(name)-16s %(levelname)-8s %(message)s"
 LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
