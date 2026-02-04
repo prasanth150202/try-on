@@ -248,8 +248,4 @@ with gr.Blocks(theme=gr.themes.Soft(), delete_cache=(3600, 3600)) as app:
 
 
 if __name__ == "__main__":
-    app.queue(api_open=False).launch(
-        server_name="0.0.0.0",
-        server_port=7860,
-        show_api=False
-    )
+    app.queue(api_open=False).launch(show_api=False)
