@@ -83,102 +83,76 @@ def try_on(
 with gr.Blocks(theme=gr.themes.Soft(), delete_cache=(3600, 3600)) as app:
     gr.HTML(
          f"""
-        <div style="width: 100%; background-color: #001537; border-radius: 10px; padding-left: 10px">
-            <a href="https://www.ieee.org/" target="_blank">
-                <img src="{get_image_base64("images/logo.png")}" title=LOGO" alt="IEEE" style="float: left; margin-right: 10px; margin-left: -10px; border-radius: 10px; max-height: 50px;"/>
-            </a>
-            <h1 style="margin: 0; margin-right: 10px; line-height: 50px; color: #8cecd5; text-transform: uppercase">Dressify-Virtual Try ON TSYP</h1>
+        <div style="width: 100%; background-color: #001a4d; border-radius: 10px; padding: 15px; margin-bottom: 10px">
+<h1 style="margin: 0; color: #ffffff; text-transform: uppercase; font-size: 28px;">            <img src="https://digifyce.com/static/img/wlogo.png" style="height:100px;">  Virtual Try-On (Test)</h1>
         </div>
-        <br/>
-        <p>
-            Virtual Try On technology is developed by IEEE Dressify Members . We present This prototype  
     """
     )
 
-   
-
     with gr.Row():
-        with gr.Column():
+        # Column 1 - Clothing
+        with gr.Column(scale=1):
             gr.HTML(
                 """
-                <h2>Clothing</h2>
-                <p>
-                    Clothing may be specified with a reference image or a text prompt. 
-                    For more exotic use cases image and prompt can be also used together.
-                    If both image and prompt are empty the model will generate random clothing.
-                    <br/><br/>
-                </p>
+                <div style="background-color: #001a4d; color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h2 style="margin: 0; color: #ffffff;">Product Images</h2>
+                </div>
                 """
             )
 
             with gr.Tab("Image"):
                 clothing_image = gr.Image(label="Clothing Image", sources=["upload"], type="numpy")
-
                 clothing_image_examples = gr.Examples(
-                    inputs=clothing_image, examples_per_page=12, examples=get_examples("clothing")
+                    inputs=clothing_image, examples_per_page=6, examples=get_examples("clothing")
                 )
 
             with gr.Tab("Prompt"):
                 clothing_prompt = gr.TextArea(
                     label="Clothing Prompt",
-                    info='Compel weighting <a href="https://github.com/damian0815/compel/blob/main/doc/syntax.md">syntax</a> is supported.',
+                    info='Compel weighting syntax is supported.',
                 )
-
                 clothing_prompt_examples = gr.Examples(
                     inputs=clothing_prompt,
-                    examples_per_page=8,
+                    examples_per_page=4,
                     examples=[
                         "a sheer blue sleeveless mini dress",
                         "a beige woolen sweater and white pleated skirt",
                         "a black leather jacket and dark blue slim-fit jeans",
                         "a floral pattern blouse and leggings",
-                        "a paisley pattern purple shirt and beige chinos",
-                        "a striped white and blue polo shirt and blue jeans",
-                        "a colorful t-shirt and black shorts",
-                        "a checked pattern shirt and dark blue cargo pants",
                     ],
                 )
 
-        with gr.Column():
+        # Column 2 - Avatar
+        with gr.Column(scale=1):
             gr.HTML(
                 """
-                <h2>Avatar</h2>
-                <p>
-                    Avatar may be specified with a subject photo or a text prompt.
-                    Latter can be used, for example, to replace person while preserving clothing. 
-                    For more exotic use cases image and prompt can be also used together.
-                    If both image and prompt are empty the model will generate random avatars.
-                </p>
+                <div style="background-color: #001a4d; color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h2 style="margin: 0; color: #ffffff;">Your Image</h2>
+                </div>
                 """
             )
 
             with gr.Tab("Image"):
                 avatar_image = gr.Image(label="Avatar Image", sources=["upload"], type="numpy")
-
                 avatar_image_examples = gr.Examples(
                     inputs=avatar_image,
-                    examples_per_page=12,
+                    examples_per_page=6,
                     examples=get_examples("avatar"),
                 )
 
             with gr.Tab("Prompt"):
                 avatar_prompt = gr.TextArea(
                     label="Avatar Prompt",
-                    info='Compel weighting <a href="https://github.com/damian0815/compel/blob/main/doc/syntax.md">syntax</a> is supported.',
+                    info='Compel weighting syntax is supported.',
                 )
-
                 avatar_prompt_examples = gr.Examples(
                     inputs=avatar_prompt,
-                    examples_per_page=8,
+                    examples_per_page=4,
                     examples=[
                         "a beautiful blond girl with long hair",
                         "a cute redhead girl with freckles",
                         "a plus size female model wearing sunglasses",
                         "a woman with dark hair and blue eyes",
-                        "a fit man with dark beard and blue eyes",
-                        "a young blond man posing for a photo",
-                        "a gentleman with beard and mustache",
-                        "a plus size man walking",
                     ],
                 )
 
@@ -186,54 +160,48 @@ with gr.Blocks(theme=gr.themes.Soft(), delete_cache=(3600, 3600)) as app:
                 label="Avatar Sex",
                 choices=[("Auto", ""), ("Male", "male"), ("Female", "female")],
                 value="",
-                info="Avatar sex selector can be used to enforce a specific sex of the avatar.",
+                info="Avatar sex selector.",
             )
 
-        with gr.Column():
+        # Column 3 - Background
+        with gr.Column(scale=1):
             gr.HTML(
                 """
-                <h2>Background</h2>
-                <p>
-                    Replacing background is optional. 
-                    Background may be specified with a reference image or a text prompt.
-                    If omitted original avatar background will be preserved.
-                    <br/><br/><br/>
-                </p>
+                <div style="background-color: #001a4d; color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h2 style="margin: 0; color: #ffffff;">Background</h2>
+                </div>
                 """
             )
 
             with gr.Tab("Image"):
                 background_image = gr.Image(label="Background Image", sources=["upload"], type="numpy")
-
                 background_image_examples = gr.Examples(
-                    inputs=background_image, examples_per_page=12, examples=get_examples("background")
+                    inputs=background_image, examples_per_page=6, examples=get_examples("background")
                 )
 
             with gr.Tab("Prompt"):
                 background_prompt = gr.TextArea(
                     label="Background Prompt",
-                    info='Compel weighting <a href="https://github.com/damian0815/compel/blob/main/doc/syntax.md">syntax</a> is supported.',
+                    info='Compel weighting syntax is supported.',
                 )
-
                 background_prompt_examples = gr.Examples(
                     inputs=background_prompt,
-                    examples_per_page=8,
+                    examples_per_page=4,
                     examples=[
                         "in an autumn park",
                         "in front of a brick wall",
                         "near an old tree",
                         "on a busy city street",
-                        "in front of a staircase",
-                        "on an ocean beach with palm trees",
-                        "in a shopping mall",
-                        "in a modern office",
                     ],
                 )
 
-        with gr.Column():
+        # Column 4 - Generation and Results
+        with gr.Column(scale=1):
             gr.HTML(
                 """
-                <h2>Generation</h2>
+                <div style="background-color: #001a4d; color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h2 style="margin: 0; color: #ffffff;">Generation</h2>
+                </div>
                 """
             )
 
@@ -241,12 +209,22 @@ with gr.Blocks(theme=gr.themes.Soft(), delete_cache=(3600, 3600)) as app:
                 label="Seed",
                 value=-1,
                 minimum=-1,
-                info="Seed used for generation, specify -1 for random seed for each generation.",
+                info="Seed for generation (-1 for random).",
             )
 
-            generate_button = gr.Button(value="Generate", variant="primary")
+            generate_button = gr.Button(value="Generate Try-On", variant="primary", size="lg")
 
-            result_image = gr.Image(label="Result", show_share_button=False, format="jpeg")
+            gr.HTML("<br/>")
+
+            gr.HTML(
+                """
+                <div style="background-color: #001a4d; color: white; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h2 style="margin: 0; color: #ffffff;">Result</h2>
+                </div>
+                """
+            )
+
+            result_image = gr.Image(label="Generated Image", show_share_button=False, format="jpeg")
             result_details = gr.HTML(label="Details")
 
     generate_button.click(
@@ -266,8 +244,12 @@ with gr.Blocks(theme=gr.themes.Soft(), delete_cache=(3600, 3600)) as app:
         concurrency_limit=CONCURRENCY_LIMIT,
     )
 
-    app.title = "Virtual Try-On Diffusion by IEEE Dressify"
+    app.title = "Virtual Try-On Demo"
 
 
 if __name__ == "__main__":
-    app.queue(api_open=False).launch(show_api=False)
+    app.queue(api_open=False).launch(
+        server_name="0.0.0.0",
+        server_port=7860,
+        show_api=False
+    )
